@@ -1,5 +1,9 @@
 import Notiflix from 'notiflix';
+import SimpleLightbox from "simplelightbox";
+import "simplelightbox/dist/simple-lightbox.min.css";
+
 const axios = require("axios").default;
+const lightbox = new SimpleLightbox('.gallery a', { /* options */ });
 
 const searchForm = document.querySelector("#search-form");
 const gallery = document.querySelector('.gallery');
@@ -17,7 +21,6 @@ async function getImages(q) {
 	});
 
 	const gallery = await axios.get(`https://pixabay.com/api/?key=29841815-11a861cc71d343152543274bc&q=${q}&page=${page}&${searchParams}`);
-
 	return gallery;
 }
 
@@ -27,7 +30,6 @@ function onSubmit(e) {
 	e.preventDefault();
 
 	searchQueryInput = e.target.elements.searchQuery.value.trim();
-	// console.log(searchQueryInput);
 
 	gallery.innerHTML = '';
 
@@ -47,7 +49,9 @@ function onSubmit(e) {
 				return Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again.');
 			}
 
+			Notiflix.Notify.success(`Hooray! We found ${gallery.data.totalHits} images.`);
 			getRendering(gallery.data.hits)
+			lightbox.refresh();
 			loadMoreBtn.removeAttribute('hidden', false)
 		}
 		).catch(err => console.log(err));
@@ -58,22 +62,23 @@ function onSubmit(e) {
 function getRendering(arr) {
 	const murkap = arr.map(arr => {
 		return `<div class="photo-card">
-<img src="${arr.webformatURL}" alt="${arr.tags}" loading="lazy" width="100" height="100"/>
+		<a href="${arr.largeImageURL}">
+<img src="${arr.webformatURL}" alt="${arr.tags}" loading="lazy" width="300" height="150"/></a>
 <div class="info">
   <p class="info-item">
-  <b>Likes</b>
+  <b>❤</b>
 	${arr.likes}
   </p>
   <p class="info-item">
-  <b>Views</b>
+  <b>👁</b>
 	 ${arr.views}
   </p>
   <p class="info-item">
-  <b>Comments</b>
+  <b>💭</b>
 	 ${arr.comments}
   </p>
   <p class="info-item">
-  <b>Downloads</b>
+  <b>📥</b>
 	 ${arr.downloads}
   </p>
 </div>
@@ -81,6 +86,7 @@ function getRendering(arr) {
 	}).join('');
 	gallery.insertAdjacentHTML('beforeend', murkap)
 }
+
 
 loadMoreBtn.addEventListener('click', onloadMoreBtnClick);
 
@@ -99,8 +105,10 @@ function onloadMoreBtnClick() {
 			}
 
 			getRendering(gallery.data.hits)
+			lightbox.refresh();
 		}
 		).catch(err => console.log(err));
+
 }
 
 
