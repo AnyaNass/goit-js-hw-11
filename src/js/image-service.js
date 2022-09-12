@@ -1,4 +1,5 @@
-const axios = require("axios").default;
+// const axios = require("axios").default;
+import axios from 'axios';
 
 export class Gallery {
 	page = 1;
@@ -12,7 +13,7 @@ export class Gallery {
 			per_page: 200
 		});
 
-		const gallery = await axios.get(`https://pixabay.com/api/?key=29841815-11a861cc71d343152543274bc&q=${q}&page=${page}&${searchParams}`);
+		const gallery = await axios.get(`https://pixabay.com/api/?key=29841815-11a861cc71d343152543274bc&q=${q}&page=${this.page}&${searchParams}`);
 		return gallery;
 	}
 
