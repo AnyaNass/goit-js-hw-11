@@ -80,14 +80,14 @@ function getRendering(arr) {
 function onloadMoreBtnClick() {
 	images.pageIncrement();
 
-	images.getImages(searchQueryInput)
+	images.getImages(images.searchQueryInput)
 		.then(gallery => {
 
 			if (!gallery) {
 				throw new Error();
 			}
 
-			if (page >= Math.ceil(gallery.data.totalHits / gallery.data.hits.length)) {
+			if (images.page >= Math.ceil(gallery.data.totalHits / gallery.data.hits.length)) {
 				loadMoreBtn.setAttribute('hidden', true)
 				theEndOfCollection.classList.remove('is-hidden')
 				// gallery.insertAdjacentHTML('afterend', "<div>We're sorry, but you've reached the end of search results.</div>")
@@ -100,16 +100,7 @@ function onloadMoreBtnClick() {
 
 }
 
-// const { height: cardHeight } = document
-// 	.querySelector(".gallery")
-// 	.firstElementChild.getBoundingClientRect();
 
-// window.scrollBy({
-// 	top: cardHeight * 2,
-// 	behavior: "smooth",
-// });
-
-// console.log(gallery.firstElementChild);
 
 
 

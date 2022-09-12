@@ -1,4 +1,3 @@
-// const axios = require("axios").default;
 import axios from 'axios';
 
 export class Gallery {
@@ -10,7 +9,7 @@ export class Gallery {
 			image_type: "photo",
 			orientation: "horizontal",
 			safesearch: "true",
-			per_page: 200
+			per_page: 40
 		});
 
 		const gallery = await axios.get(`https://pixabay.com/api/?key=29841815-11a861cc71d343152543274bc&q=${q}&page=${this.page}&${searchParams}`);
@@ -18,7 +17,7 @@ export class Gallery {
 	}
 
 	pageIncrement() {
-		page += 1;
+		this.page += 1;
 	}
 }
 
