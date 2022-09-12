@@ -20,6 +20,7 @@ function onSubmit(e) {
 	images.searchQueryInput = e.target.elements.searchQuery.value.trim();
 
 	images.page = 1;
+	loadMoreBtn.setAttribute('hidden', true);
 	gallery.innerHTML = '';
 	theEndOfCollection.classList.add('is-hidden')
 
