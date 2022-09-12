@@ -27,7 +27,7 @@ function onSubmit(e) {
 		return;
 	}
 
-	images.getImages(e.target.elements.searchQuery.value.trim())
+	images.getImages(images.searchQueryInput)
 		.then(gallery => {
 
 			if (!gallery) {
@@ -80,7 +80,6 @@ function getRendering(arr) {
 function onloadMoreBtnClick() {
 	images.pageIncrement();
 
-	// page += 1;
 	images.getImages(searchQueryInput)
 		.then(gallery => {
 
