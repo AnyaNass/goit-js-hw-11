@@ -91,7 +91,6 @@ function onloadMoreBtnClick() {
 			if (images.page >= Math.ceil(gallery.data.totalHits / gallery.data.hits.length)) {
 				loadMoreBtn.setAttribute('hidden', true)
 				theEndOfCollection.classList.remove('is-hidden')
-				// gallery.insertAdjacentHTML('afterend', "<div>We're sorry, but you've reached the end of search results.</div>")
 			}
 
 			getRendering(gallery.data.hits)
@@ -101,50 +100,3 @@ function onloadMoreBtnClick() {
 
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// let page = 1;
-// let searchQueryInput = '';
-
-// async function getImages(q) {
-// 	const searchParams = new URLSearchParams({
-// 		image_type: "photo",
-// 		orientation: "horizontal",
-// 		safesearch: "true",
-// 		per_page: 200
-// 	});
-
-// 	const gallery = await axios.get(`https://pixabay.com/api/?key=29841815-11a861cc71d343152543274bc&q=${q}&page=${page}&${searchParams}`);
-// 	return gallery;
-// }
