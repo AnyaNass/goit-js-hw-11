@@ -1,43 +1,33 @@
 import Notiflix from 'notiflix';
 import SimpleLightbox from "simplelightbox";
 import "simplelightbox/dist/simple-lightbox.min.css";
+import { Gallery } from './js/image-service';
 
-const axios = require("axios").default;
 const lightbox = new SimpleLightbox('.gallery a', { /* options */ });
+const images = new Gallery();
 
 const searchForm = document.querySelector("#search-form");
 const gallery = document.querySelector('.gallery');
 const loadMoreBtn = document.querySelector('.load-more-btn');
-
-let page = 1;
-let searchQueryInput = '';
-
-async function getImages(q) {
-	const searchParams = new URLSearchParams({
-		image_type: "photo",
-		orientation: "horizontal",
-		safesearch: "true",
-		per_page: 40
-	});
-
-	const gallery = await axios.get(`https://pixabay.com/api/?key=29841815-11a861cc71d343152543274bc&q=${q}&page=${page}&${searchParams}`);
-	return gallery;
-}
+const theEndOfCollection = document.querySelector('.the-end')
 
 searchForm.addEventListener("submit", onSubmit)
+loadMoreBtn.addEventListener('click', onloadMoreBtnClick);
 
 function onSubmit(e) {
 	e.preventDefault();
 
 	searchQueryInput = e.target.elements.searchQuery.value.trim();
 
+	page = 1;
 	gallery.innerHTML = '';
+	theEndOfCollection.classList.add('is-hidden')
 
 	if (searchQueryInput === '') {
 		return;
 	}
 
-	getImages(searchQueryInput)
+	images.getImages(searchQueryInput)
 		.then(gallery => {
 
 			if (!gallery) {
@@ -87,12 +77,11 @@ function getRendering(arr) {
 	gallery.insertAdjacentHTML('beforeend', murkap)
 }
 
-
-loadMoreBtn.addEventListener('click', onloadMoreBtnClick);
-
 function onloadMoreBtnClick() {
-	page += 1;
-	getImages(searchQueryInput)
+	images.pageIncrement();
+
+	// page += 1;
+	images.getImages(searchQueryInput)
 		.then(gallery => {
 
 			if (!gallery) {
@@ -101,6 +90,7 @@ function onloadMoreBtnClick() {
 
 			if (page >= Math.ceil(gallery.data.totalHits / gallery.data.hits.length)) {
 				loadMoreBtn.setAttribute('hidden', true)
+				theEndOfCollection.classList.remove('is-hidden')
 				// gallery.insertAdjacentHTML('afterend', "<div>We're sorry, but you've reached the end of search results.</div>")
 			}
 
@@ -111,6 +101,16 @@ function onloadMoreBtnClick() {
 
 }
 
+// const { height: cardHeight } = document
+// 	.querySelector(".gallery")
+// 	.firstElementChild.getBoundingClientRect();
+
+// window.scrollBy({
+// 	top: cardHeight * 2,
+// 	behavior: "smooth",
+// });
+
+// console.log(gallery.firstElementChild);
 
 
 
@@ -131,41 +131,29 @@ function onloadMoreBtnClick() {
 
 
 
-// class Gallery {
-// 	baseURL = 'https://pixabay.com/api/?key=29841815-11a861cc71d343152543274bc';
-// 	page = 1;
-// 	per_page = 40;
 
 
-// 	async getImages(q) {
-// 		const config = {
-// 			params: {
-// 				image_type: "photo",
-// 				orientation: "horizontal",
-// 				safesearch: "true",
-// 			}
-// 		}
-// 		return await axios.get(`${this.baseURL}&q=${q}`, config).then(resp => console.log(resp.data))
-// 	}
+
+
+
+
+
+
+
+
+
+
+// let page = 1;
+// let searchQueryInput = '';
+
+// async function getImages(q) {
+// 	const searchParams = new URLSearchParams({
+// 		image_type: "photo",
+// 		orientation: "horizontal",
+// 		safesearch: "true",
+// 		per_page: 200
+// 	});
+
+// 	const gallery = await axios.get(`https://pixabay.com/api/?key=29841815-11a861cc71d343152543274bc&q=${q}&page=${page}&${searchParams}`);
+// 	return gallery;
 // }
-
-// const gallery = new Gallery();
-
-// const searchForm = document.querySelector("#search-form");
-
-// searchForm.addEventListener("submit", onSubmit)
-
-// async function onSubmit(e) {
-// 	e.preventDefault();
-
-// 	const searchQueryInput = e.target.elements.searchQuery.value;
-// 	console.log(searchQueryInput);
-
-// 	gallery.getImages(searchQueryInput)
-
-// }
-
-
-
-
-
