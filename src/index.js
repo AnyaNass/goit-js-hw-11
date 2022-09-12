@@ -17,17 +17,17 @@ loadMoreBtn.addEventListener('click', onloadMoreBtnClick);
 function onSubmit(e) {
 	e.preventDefault();
 
-	images.searchQueryInput = e.target.elements.searchQuery.value.trim();
+	// searchQueryInput = e.target.elements.searchQuery.value.trim();
 
-	images.page = 1;
+	page = 1;
 	gallery.innerHTML = '';
 	theEndOfCollection.classList.add('is-hidden')
 
-	if (searchQueryInput === '') {
+	if (e.target.elements.searchQuery.value.trim() === '') {
 		return;
 	}
 
-	images.getImages(searchQueryInput)
+	images.getImages(e.target.elements.searchQuery.value.trim())
 		.then(gallery => {
 
 			if (!gallery) {
