@@ -17,9 +17,9 @@ loadMoreBtn.addEventListener('click', onloadMoreBtnClick);
 function onSubmit(e) {
 	e.preventDefault();
 
-	searchQueryInput = e.target.elements.searchQuery.value.trim();
+	images.searchQueryInput = e.target.elements.searchQuery.value.trim();
 
-	page = 1;
+	images.page = 1;
 	gallery.innerHTML = '';
 	theEndOfCollection.classList.add('is-hidden')
 
