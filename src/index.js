@@ -24,9 +24,9 @@ function onSubmit(e) {
 	gallery.innerHTML = '';
 	theEndOfCollection.classList.add('is-hidden')
 
-	if (images.searchQueryInput === '') {
-		return;
-	}
+	// if (images.searchQueryInput === '') {
+	// 	return;
+	// }
 
 	images.getImages(images.searchQueryInput)
 		.then(gallery => {
